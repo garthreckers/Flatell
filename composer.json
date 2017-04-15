@@ -11,5 +11,10 @@
             "name": "Garth Reckers",
             "email": "garthreckers@yahoo.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Spinion\\": "lib"
+        }
+    }
 }
