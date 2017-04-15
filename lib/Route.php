@@ -9,12 +9,26 @@ class Route
 
     public $middleware = array();
 
+    /**
+     * Allows a closure to be performed on a route
+     *
+     * @param func $callback The closure function to be run
+     *
+     * @return void
+    */
     public function closure($callback)
     {
         \Routes::map($this->url, $callback);
         return;
     }
 
+    /**
+     * Defines the URL endpoint
+     *
+     * @param string $url The relative URL to be used
+     *
+     * @return Object Returns the current class
+    */
     public function url($url)
     {
         $this->url = $url;
@@ -22,6 +36,14 @@ class Route
         return $this;
     }
 
+    /**
+     * The HTTP methods that should be accepted
+     *
+     * @param [] $methods An array of the accepted methods.
+     *  Currently supports GET and POST.
+     *
+     * @return Object Returns the current class
+    */
     public function methods($methods)
     {
         $this->methods = $methods;
@@ -29,6 +51,15 @@ class Route
         return $this;
     }
 
+    /**
+     * Calls middleware that gets executed before the controller call
+     *
+     * @param string $middleware The class/method combo that should be called.
+     *  Format should be 'Class::method' if static, 'Class@method' if not static,
+     *  and 'Class' if just being instantiated.
+     *
+     * @return Object Returns the current class
+    */
     public function middleware($middleware)
     {
         $this->middleware[] = $middleware;
@@ -36,6 +67,15 @@ class Route
         return $this;
     }
 
+    /**
+     * Defines the controller that should be used for the routed endpoint
+     *
+     * @param string $controller The class/method combo that should be called.
+     *  Format should be 'Class::method' if static, 'Class@method' if not static,
+     *  and 'Class' if just being instantiated.
+     *
+     * @return Object Returns the current class
+    */
     public function controller($controller)
     {
         $this->controller = $controller;
@@ -43,6 +83,13 @@ class Route
         return $this;
     }
 
+    /**
+     * Performs a simple redirect 
+     *
+     * @param string $redirect The URL to redirect to
+     *
+     * @return void
+    */
     public function redirect($redirect)
     {
         $this->redirect = $redirect;
@@ -58,6 +105,12 @@ class Route
         });
     }
 
+    /**
+     * Calls the controller if the method is correct and it passes
+     *  through the middleware.
+     *
+     * @return void
+    */
     public function call()
     {
         if (!isset($this->url)) {
@@ -67,7 +120,7 @@ class Route
         $checkMethod = $this->checkMethods();
 
         if (!$checkMethod) {
-            return false;
+            return;
         }
 
         \Routes::map($this->url, function ($params) {
@@ -77,7 +130,7 @@ class Route
                     $midware = $this->callMiddleware($m);
 
                     if (!$midware) {
-                        return false;
+                        return;
                     }
                 }
             }
@@ -85,16 +138,32 @@ class Route
             $this->callController($params);
             exit;
         });
+
+        return;
     }
 
+    /**
+     * Checks the requested HTTP method and the accepted HTTP methods
+     *
+     * @return bool Returns true if methods match up and false if not
+    */
     private function checkMethods()
     {
-        if (isset($this->methods) && !in_array($_SERVER['REQUEST_METHOD'], $this->methods)) {
+        if (isset($this->methods)
+            && !in_array($_SERVER['REQUEST_METHOD'], $this->methods)
+        ) {
             return false;
         }
         return true;
     }
 
+    /**
+     * Calls the controller class/method
+     *
+     * @param array $params The routing variables
+     *
+     * @return void
+    */
     private function callController($params)
     {
         if (strpos($this->controller, '@') !== false) {
@@ -112,8 +181,16 @@ class Route
         }
 
         $cont = new $this->controller($params);
+        return;
     }
 
+    /**
+     * Calls the middleware class/method
+     *
+     * @param string $middleware The string for the middleware class/method combo
+     *
+     * @return mixed Returns the return value from the method call or the object
+    */
     private function callMiddleware($middleware)
     {
         if (strpos($middleware, '@') !== false) {
@@ -130,5 +207,6 @@ class Route
         }
 
         $cont = new $middleware();
+        return $cont;
     }
 }
