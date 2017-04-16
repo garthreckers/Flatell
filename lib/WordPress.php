@@ -17,26 +17,28 @@ class WordPress
 
     public function fallbackTemplates()
     {
-        add_action('wp', function () {
-            if ($this->controller_templates['single']) {
-                add_filter('single_template', array($this, 'overridePostTemplates'));
-            }
-
-            if ($this->controller_templates['archive']) {
-                add_filter('archive_template', array($this, 'overrideArchiveTemplates'));
-            }
-
-            if ($this->controller_templates['page']) {
-                add_filter('page_template', array($this, 'overridePageTemplates'));
-            }
-        }, 99);
+        add_action('wp', array($this, 'customTemplates'), 99);
 
         add_action('template_redirect', array($this, 'custom404'));
     }
 
+    public function customTemplates() {
+        if ($this->controller_templates['single']) {
+            add_filter('single_template', array($this, 'overridePostTemplates'));
+        }
+
+        if ($this->controller_templates['archive']) {
+            add_filter('archive_template', array($this, 'overrideArchiveTemplates'));
+        }
+
+        if ($this->controller_templates['page']) {
+            add_filter('page_template', array($this, 'overridePageTemplates'));
+        }
+    }
+
     public function overridePostTemplates($template)
     {
-        if ($template === '') {
+        if ($template === '' || basename($template) == 'single.php') {
             (new Single())->showPage();
             exit;
         }
@@ -46,7 +48,7 @@ class WordPress
 
     public function overrideArchiveTemplates($template)
     {
-        if ($template === '') {
+        if ($template === '' || basename($template) == 'archive.php') {
             (new Archive())->showPage();
             exit;
         }
@@ -56,7 +58,7 @@ class WordPress
 
     public function overridePageTemplates($template)
     {
-        if ($template === '') {
+        if ($template === '' || basename($template) == 'page.php') {
             (new Page())->showPage();
             exit;
         }

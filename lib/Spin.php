@@ -33,7 +33,7 @@ class Spin
      *
      * @return Spin Returns the current instance 
     */
-    public function disableWpRemoveJunk()
+    public function wpRemoveJunk()
     {
         $this->removeWpJunk = true;
 
