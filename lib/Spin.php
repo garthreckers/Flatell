@@ -22,7 +22,7 @@ class Spin
             $spin_wp->removeJunk();
         }
 
-        if (class_exists('Models\PostType\Bootstrap')) {
+        if (class_exists('\Models\PostType\Bootstrap')) {
             (new Models\PostType\Bootstrap());
         }
     }
