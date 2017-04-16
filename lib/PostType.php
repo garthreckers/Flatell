@@ -1,6 +1,8 @@
 <?php
 namespace Spinion;
 
+use Exceptions\SpinionPostTypeException;
+
 abstract class PostType
 {
     public $id;
@@ -83,20 +85,24 @@ abstract class PostType
         }
 
         add_filter('single_template', function ($template) {
-            return APPROOT . '/controllers/single-' . $this->id . '.php';
+            return get_template_directory() . '/controllers/single-' . $this->id . '.php';
         });
 
         add_filter('archive_template', function ($template) {
-            return APPROOT . '/controllers/archive-' . $this->id . '.php';
+            return get_template_directory() . '/controllers/archive-' . $this->id . '.php';
         });
     }
 
     public function singleController()
     {
         if (isset($this->controller)) {
-            $class = 'Controllers\Single' . $this->controller;
-            $single = new $class();
-            $single->showPage();
+            try {
+                $class = 'Controllers\Single' . $this->controller;
+                $single = new $class();
+                $single->showPage();
+            } catch(SpinionPostTypeException $e) {
+                echo $e->getMessage();
+            }
 
             exit;
         }
@@ -105,9 +111,13 @@ abstract class PostType
     public function archiveController()
     {
         if (isset($this->controller)) {
-            $class = 'Controllers\Archive' . $this->controller;
-            $archive = new $class();
-            $archive->showPage();
+            try {
+                $class = 'Controllers\Archive' . $this->controller;
+                $archive = new $class();
+                $archive->showPage();
+            } catch(SpinionPostTypeException $e) {
+                echo $e->getMessage();
+            }
 
             exit;
         }
