@@ -12,7 +12,8 @@ class WordPress
             '404' => true,
             'page' => true,
             'single' => true,
-            'archive' => true
+            'archive' => true,
+            'home' => true
         );
 
     public function fallbackTemplates()
@@ -76,10 +77,14 @@ class WordPress
     }
 
     public function custom404()
-    {   
+    {
         if ($this->controller_templates['404'] && is_404()) {
             (new FourOhFour())->showPage();
             exit;
+        }
+        if ($this->controller_templates['home'] && is_home()) {
+            (new Home())->showPage();
+            exit;   
         }
     }
 

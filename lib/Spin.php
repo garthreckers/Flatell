@@ -7,7 +7,8 @@ class Spin
             '404' => true,
             'page' => true,
             'single' => true,
-            'archive' => true
+            'archive' => true,
+            'home' => true
         );
 
     public $removeWpJunk = false;
@@ -48,6 +49,18 @@ class Spin
     public function disablePageController()
     {
         $this->controller_templates['page'] = false;
+
+        return $this;
+    }
+
+    /**
+     * Disables the home controller
+     *
+     * @return Spin Returns the current instance 
+    */
+    public function disableHomeController()
+    {
+        $this->controller_templates['home'] = false;
 
         return $this;
     }
