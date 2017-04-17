@@ -45,8 +45,12 @@ abstract class Controller
         return new \TimberPost($arg);
     }
 
-    public function getPosts($args)
+    public function getPosts($args = array())
     {
+        if (empty($arg)) {
+            return Timber::get_posts();
+        }
+
         return Timber::get_posts($args);
     }
 

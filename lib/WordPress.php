@@ -5,6 +5,7 @@ use Controllers\Single;
 use Controllers\Archive;
 use Controllers\Page;
 use Controllers\FourOhFour;
+use Controllers\Home;
 
 class WordPress
 {
@@ -20,7 +21,7 @@ class WordPress
     {
         add_action('wp', array($this, 'customTemplates'), 99);
 
-        add_action('template_redirect', array($this, 'custom404'));
+        add_action('template_redirect', array($this, 'customRedirects'));
     }
 
     public function customTemplates() {
@@ -76,7 +77,7 @@ class WordPress
         return $template;
     }
 
-    public function custom404()
+    public function customRedirects()
     {
         if ($this->controller_templates['404'] && is_404()) {
             (new FourOhFour())->showPage();
@@ -84,7 +85,7 @@ class WordPress
         }
         if ($this->controller_templates['home'] && is_home()) {
             (new Home())->showPage();
-            exit;   
+            exit;
         }
     }
 
