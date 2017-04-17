@@ -9,7 +9,7 @@ class Bootstrap
             $class_name = basename($file, '.php');
             $class = $__namespace__ . '\\' . $class_name;
 
-            if (in_array($class, $this->exclude) || $class == $__class__) {
+            if ((!empty($this->exclude) && in_array($class, $this->exclude)) || $class == $__class__) {
                 continue;
             }
 
