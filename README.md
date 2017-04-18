@@ -15,7 +15,7 @@ The basic file structure for a project would like this:
 ```
 |— controllers
    |— Home.php
-   |— FourOhFour.php 	# yeah... its ugly but avoids a 404 class name
+   |— FourOhFour.php    # yeah... its ugly but avoids a 404 class name
    |— Page.php
    |— Archive.php
    |— Single.php
@@ -87,23 +87,23 @@ This set up will create a basic events Post Type. Want to add more functionality
 ...
 class Events extends PostType
 {
-	...
+    ...
 
-	public function childConstruct()
-	{
-		add_filter('restrict_manage_posts', array($this, 'customAdminFilter'));
-	    add_filter('parse_query', array($this, 'customPostsFilter'));
-	}
+    public function childConstruct()
+    {
+        add_filter('restrict_manage_posts', array($this, 'customAdminFilter'));
+        add_filter('parse_query', array($this, 'customPostsFilter'));
+    }
 
-	public function customAdminFilter()
-	{
-		// Your code to add the filter to the admin area
-	}
+    public function customAdminFilter()
+    {
+        // Your code to add the filter to the admin area
+    }
 
-	public function customPostsFilter()
-	{
-		// Your code to modify the query for the filtered posts
-	}
+    public function customPostsFilter()
+    {
+        // Your code to modify the query for the filtered posts
+    }
 }
 ```
 
@@ -115,9 +115,9 @@ To start using the updated object oriented version, you can simple add a control
 ...
 class Events extends PostType
 {
-	...
+    ...
 
-	public $controller = 'Events';
+    public $controller = 'Events';
 }
 ```
 
@@ -132,12 +132,12 @@ use Spinion\Controller;
 
 class Single extends Controller
 {
-	public function showPage()
-	{
-		$this->addContext('post', $this->getPost());
+    public function showPage()
+    {
+        $this->addContext('post', $this->getPost());
 
-		$this->render('single');
-	}
+        $this->render('single');
+    }
 }
 ```
 
@@ -154,8 +154,8 @@ The above controller view would look like this:
 <title>Single Sample</title>
 </head>
 <body>
-	<h1>{{ post.title }}</h1>
-	{{ post.content }}
+    <h1>{{ post.title }}</h1>
+    {{ post.content }}
 </body>
 </html>
 ```
@@ -185,7 +185,7 @@ You can define if the URL should accept GET and/or POST. You can also define 2 r
 Accept both GET and POST
 ``` PHP
 (new Spinion\Route)->url('custom-page/:id')
-	->methods(array('GET', 'POST'))
+    ->methods(array('GET', 'POST'))
     ->controller('Controllers\Custom@showPage')
     ->call();
 ```
@@ -193,12 +193,12 @@ Accept both GET and POST
 Use one controller for GET and another for POST to, for example, display a form (showPage method) and process it (processSignup)
 ``` PHP
 (new Spinion\Route)->url('sign-up')
-	->methods(array('GET'))
+    ->methods(array('GET'))
     ->controller('Controllers\Custom@showPage')
     ->call();
 
 (new Spinion\Route)->url('sign-up')
-	->methods(array('POST'))
+    ->methods(array('POST'))
     ->controller('Controllers\Custom@processSignup')
     ->call();
 ```
@@ -206,17 +206,17 @@ Use one controller for GET and another for POST to, for example, display a form 
 __Closure__
 ``` PHP
 (new Spinion\Route)->url('custom-page/:id')
-	->closure(function () {
-		// Some function code
-	});
+    ->closure(function () {
+        // Some function code
+    });
 ```
 
 __Middleware__
 This is has very limitedly been tested and set up so may still need some work but you can call class methods that to process before the routes controller gets called to, for example, authenticate a logged in user. This example calls (new Auth)->authorize() and redirects to a login page if the auth fails or continues on to SecretPage if it authenticates user.
 ``` PHP
 (new Spinion\Route)->url('custom-page/:id')
-	->methods(array('GET', 'POST'))
-	->middleware('Auth@authorize')
+    ->methods(array('GET', 'POST'))
+    ->middleware('Auth@authorize')
     ->controller('Controllers\SecretPage@showPage')
     ->call();
 ```
@@ -245,11 +245,11 @@ You can also exclude some classes from loading by adding a string of the namespa
 class Bootstrap extends SpinBootstrap
 {
     public $exlucde = array(
-    		'Models\PostType\LeftOutClass',
-    		'Models\PostType\OtherLeftOutClass'
-    	);
+            'Models\PostType\LeftOutClass',
+            'Models\PostType\OtherLeftOutClass'
+        );
 
-	...
+    ...
 }
 ```
 
