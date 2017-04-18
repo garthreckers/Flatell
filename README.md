@@ -238,7 +238,7 @@ class Bootstrap extends SpinBootstrap
 }
 ```
 
-You can also exclude some classes from loading by adding a string of the namespace and class to the $exlude property.
+You can also exclude some classes from loading by adding a string of the namespace and class to the $exclude property.
 
 ``` PHP
 ...
