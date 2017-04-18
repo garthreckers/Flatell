@@ -1,13 +1,15 @@
 # Spinion
 
-__Not Recommend to use in production.__ With that out of the way, feel free to use this at your own risk. I have this currently running in production with no real issues but can't promise there wont be changes a lot of changes before a release. This is simple a structure for internal sites that I am making available for those who may be interested.
+__Not Recommended to use in production.__ With that out of the way, feel free to use this at your own risk. I have this currently running in production with no real issues but can't promise there wont be a lot of changes before its actually released. This is simple a something I use for internal sites that I am making available for those who may be interested. 
 
-What is Spinion? Well, it's a small framework that helps enforce an MVC structure in WordPress themes. It also helps speed up production with some abstract classes for Custom Post Types and, coming as soon as I decide to put more time into this project, taxonomies and options pages.
+Not sure what the interest in a project like this would be so hoping to gauge some interest before spending too much of my off hours making this pretty and developer friendly.
 
-This package relies on the great work done the Timber - next advanced custom fields it is one of my favorite things to ever happen to WordPress. For details about templating and reference on how some of the controller codes work ($this->getPost(), $this->getPosts(), and $this->getMenu() simple are just wrapper classes for their Timber equivalent) check out the package on github https://github.com/timber/timber.
+What is Spinion? Well, it's a small framework that helps enforce an MVC structure in WordPress themes. It also helps speed up production with some abstract classes for Custom Post Types and, coming as soon as I adapt some internal classes to work in this project, taxonomies and options pages.
 
-__Namespacing__
-You will need to register the namespaces for your Controllers and Models to make sure they are autoloaded. This may change eventually but this is the easiest method currently to avoid adding new requires every time you add a new controllers or a new post type. For post types, you will also need to include a Bootstrap class in the folder to help initialize the post types automatically.
+This package relies on the great work done by Timber (One of my favorite things to ever happen to my WordPress development). For details about templating and references on how some of the controller codes work ($this->getPost(), $this->getPosts(), and $this->getMenu() simple are just wrapper classes for their Timber equivalent) check out the package on github https://github.com/timber/timber. Even if you do not use Spinion, consider using Timber for your next project.
+
+__Namespacing Setup__
+You will need to register the namespaces for your Controllers and Models to make sure they are autoloaded. This may change in the future but this is the easiest method currently to avoid adding new requires every time you add a new controller or a new post type. For post types, you will also need to include a Bootstrap class in the folder to help initialize the post types automatically.
 
 ### Basic File Structure
 The basic file structure for a project would like this:
@@ -25,6 +27,7 @@ The basic file structure for a project would like this:
 |— models
    |— posttypes
       |— CustomPostTypeExample.php
+      |— Bootstrap.php   # Initializes all the classes in this folder to register the post types
 |— views
    |— home.twig
    |— single.twig
@@ -40,7 +43,7 @@ The basic file structure for a project would like this:
 
 ### Starting Spinion
 
-To start Spinion, you need to first include the composer autoloader in your functions.php file. After that, you can call the Spinion\Spin class to start the app.
+To start Spinion, you need to first require the composer autoloader in your functions.php file. After that, you can call the Spinion\Spin class to start the app.
 
 ``` PHP
 require_once('vendor/autoload.php');
@@ -50,7 +53,7 @@ require_once('vendor/autoload.php');
 
 This is a minimal example to start using Spinion.
 
-One add on you can include is a ->wpRemoveJunk() method that will remove some of the more common (at least for me) code for projects. This will remove a lot of the extra info in the <head> tag such as WP version, emoji code, rss feeds, etc. It also disables the top admin menu bar on the front end. Here is what that set up would look like.
+One add-on you can include is a ->wpRemoveJunk() method that will remove some of the more common out of the box code that I tend to override on all projects. This will remove a lot of the extra info in the <head> tag such as WP version, emoji code, rss feeds, etc. It also disables the top admin menu bar on the front end. Here is what that set up would look like.
 
 ```
 require_once('vendor/autoload.php');
@@ -60,7 +63,7 @@ require_once('vendor/autoload.php');
     ->start();
 ```
 
-Other methods you can add on to this include ->disablePageController(), ->disableHomeController(), ->disableSingleController(), ->disableArchiveController(), ->disable404Controller(). These can be used if you are incrementally migrating your code since they will disable Spinion for these templates and use the default files in the root directory.
+Other methods you can add on to this include ->disablePageController(), ->disableHomeController(), ->disableSingleController(), ->disableArchiveController(), ->disable404Controller(). These can be used if you are slowly migrating your code since they will disable Spinion for these templates and use the default files in the root directory.
 
 ### Custom Post Types
 
@@ -107,9 +110,9 @@ class Events extends PostType
 }
 ```
 
-The above basic set up will fallback to using a single-events.php and archive-events.php file in the /controllers just in case you are migrating from an existing theme.
+The above basic set up will fallback to using a single-events.php and archive-events.php file in the /controllers and not the controller classes we are about to go over. 
 
-To start using the updated object oriented version, you can simple add a controller property to the post type class. This property will correspond to the controller class you use with Single or Archive prepended to it so the below example will use the classes Controllers\SingleEvents and Controllers\ArchiveEvents.
+To start using the updated object oriented version, you can simply add a controller property to the post type class. This property will correspond to the controller class you use with Single or Archive prepended to it so the below example will use the classes Controllers\SingleEvents and Controllers\ArchiveEvents.
 
 ``` PHP
 ...
@@ -141,7 +144,10 @@ class Single extends Controller
 }
 ```
 
-In this example we are getting the current posts data using $this->getPost(). This will also add it to the context for the template with the variable name of 'post'. $this->render('single') will call the /views/single.twig template.
+In this example we are getting the current posts data using $this->getPost(). This will also add it to the context for the template with the twig variable name of 'post'. $this->render('single') will call the /views/single.twig template.
+
+__Why is there no directory or file extension in the render?__
+This allows you to eventually be able to easily define non-standard locations for all of the twig templates and also allows for other template engine to be used (though there isn't any plans to do this yet).
 
 ### Views File
 
@@ -162,7 +168,7 @@ The above controller view would look like this:
 
 ### Custom Routing
 
-Spinion supports custom routing (made possible by Timber). I could go into this in more depth but here are some basic examples.
+Spinion supports custom routing (made possible by Timber). I could go into this in more depth, but here are some basic examples.
 
 __A simple redirect__
 This redirects from /old-page to /new-page
