@@ -9,6 +9,7 @@ What is Spinion? Well, it's a small framework that helps enforce an MVC structur
 This package relies on the great work done by Timber (One of my favorite things to ever happen to my WordPress development). For details about templating and references on how some of the controller codes work ($this->getPost(), $this->getPosts(), and $this->getMenu() simple are just wrapper classes for their Timber equivalent) check out the package on github https://github.com/timber/timber. Even if you do not use Spinion, consider using Timber for your next project.
 
 __Namespacing Setup__
+
 You will need to register the namespaces for your Controllers and Models to make sure they are autoloaded. This may change in the future but this is the easiest method currently to avoid adding new requires every time you add a new controller or a new post type. For post types, you will also need to include a Bootstrap class in the folder to help initialize the post types automatically.
 
 ### Basic File Structure
@@ -147,6 +148,7 @@ class Single extends Controller
 In this example we are getting the current posts data using $this->getPost(). This will also add it to the context for the template with the twig variable name of 'post'. $this->render('single') will call the /views/single.twig template.
 
 __Why is there no directory or file extension in the render?__
+
 This allows you to eventually be able to easily define non-standard locations for all of the twig templates and also allows for other template engine to be used (though there isn't any plans to do this yet).
 
 ### Views File
@@ -171,6 +173,7 @@ The above controller view would look like this:
 Spinion supports custom routing (made possible by Timber). I could go into this in more depth, but here are some basic examples.
 
 __A simple redirect__
+
 This redirects from /old-page to /new-page
 ``` PHP
 (new Spinion\Route)->url('old-page')
@@ -178,6 +181,7 @@ This redirects from /old-page to /new-page
 ```
 
 __A simple custom route__
+
 This will use Controllers\Custom()'s showPage method for any calls to sites with /custom-page/:id such as /custom-page/1, /custom-page/450, etc. The variable can be access in the controller via $this->params['id']. The call method here tells the route to execute.
 ``` PHP
 (new Spinion\Route)->url('custom-page/:id')
@@ -186,6 +190,7 @@ This will use Controllers\Custom()'s showPage method for any calls to sites with
 ```
 
 __Accepted Methods__
+
 You can define if the URL should accept GET and/or POST. You can also define 2 routes for the same url with different methods. Hoping to expand this out to other methods such as PUT, DELETE and PATCH.
 
 Accept both GET and POST
@@ -210,6 +215,7 @@ Use one controller for GET and another for POST to, for example, display a form 
 ```
 
 __Closure__
+
 ``` PHP
 (new Spinion\Route)->url('custom-page/:id')
     ->closure(function () {
@@ -218,6 +224,7 @@ __Closure__
 ```
 
 __Middleware__
+
 This is has very limitedly been tested and set up so may still need some work but you can call class methods that to process before the routes controller gets called to, for example, authenticate a logged in user. This example calls (new Auth)->authorize() and redirects to a login page if the auth fails or continues on to SecretPage if it authenticates user.
 ``` PHP
 (new Spinion\Route)->url('custom-page/:id')
