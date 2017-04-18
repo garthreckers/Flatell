@@ -244,7 +244,7 @@ You can also exclude some classes from loading by adding a string of the namespa
 ...
 class Bootstrap extends SpinBootstrap
 {
-    public $exlucde = array(
+    public $exclude = array(
             'Models\PostType\LeftOutClass',
             'Models\PostType\OtherLeftOutClass'
         );
