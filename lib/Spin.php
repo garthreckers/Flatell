@@ -26,6 +26,10 @@ class Spin
         if (class_exists('\Models\PostType\Bootstrap')) {
             (new \Models\PostType\Bootstrap());
         }
+
+        if (class_exists('\Config\Bootstrap')) {
+            (new \Config\Bootstrap());
+        }
     }
 
     /**
