@@ -47,7 +47,7 @@ abstract class Controller
 
     public function getPosts($args = array())
     {
-        if (empty($arg)) {
+        if (empty($args)) {
             return Timber::get_posts();
         }
 
