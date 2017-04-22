@@ -58,4 +58,13 @@ abstract class Controller
     {
         return new \TimberMenu($id);
     }
+
+    public function getTerms($tax, $args = array())
+    {
+        if (empty($args)) {
+            return new \Timber::get_terms($tax);
+        }
+
+        return new \Timber::get_terms($tax, $args);
+    }
 }
