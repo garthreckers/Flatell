@@ -62,9 +62,9 @@ abstract class Controller
     public function getTerms($tax, $args = array())
     {
         if (empty($args)) {
-            return new \Timber::get_terms($tax);
+            return \Timber::get_terms($tax);
         }
 
-        return new \Timber::get_terms($tax, $args);
+        return \Timber::get_terms($tax, $args);
     }
 }
