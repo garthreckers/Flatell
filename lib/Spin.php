@@ -28,7 +28,7 @@ class Spin
         }
 
         if (class_exists('\Models\Taxonomy\Bootstrap')) {
-            (new \Models\PostType\Bootstrap());
+            (new \Models\Taxonomy\Bootstrap());
         }
 
         if (class_exists('\Config\Bootstrap')) {
