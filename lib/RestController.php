@@ -26,7 +26,7 @@ abstract class RestController extends Controller
         $this->response[$key] = $value;
     }
 
-    public function render()
+    public function renderJson()
     {
         $output = $this->response;
 
