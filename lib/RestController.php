@@ -21,11 +21,16 @@ abstract class RestController extends Controller
         $this->request = json_decode($raw);
     }
 
+    public function addResponse($key, $value)
+    {
+        $this->response[$key] = $value;
+    }
+
     public function render()
     {
-        $output = array();
+        $output = $this->response;
 
-        $output['data'] = $this->response;
+        header('Content-Type: application/json');
 
         echo json_encode($output);
     }
