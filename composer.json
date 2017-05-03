@@ -1,5 +1,5 @@
 {
-    "name": "garthreckers/spinion",
+    "name": "spinion/spinion",
     "require": {
         "timber/timber": "1.0.*",
         "phpunit/phpunit": "^6.1"
