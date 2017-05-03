@@ -5,22 +5,51 @@ use Exceptions\SpinionPostTypeException;
 
 abstract class PostType
 {
-    public $id;
-    public $name;
-    public $plural;
-    public $public;
-    public $has_archive;
+    protected $id;
+    protected $name;
+    protected $plural;
+    protected $public;
+    protected $has_archive;
 
-    public $controller;
-    public $slug;
-    public $show_ui;
-    public $query_var;
-    public $with_front;
-    public $capability_type;
-    public $hierarchical;
-    public $menu_position;
-    public $supports;
-    public $show_in_menu;
+    protected $controller;
+
+    protected $slug;
+    protected $show_ui;
+    protected $query_var;
+    protected $with_front;
+    protected $capability_type;
+    protected $hierarchical;
+    protected $menu_position;
+    protected $supports;
+    protected $show_in_menu;
+
+    /*
+    description
+    exclude_from_search
+    publicly_queryable
+    show_ui
+    show_in_nav_menus
+    show_in_menu
+    show_in_admin_bar
+    menu_position
+    menu_icon
+    capability_type
+    capabilities
+    map_meta_cap
+    hierarchical
+    supports
+    register_meta_box_cb
+    taxonomies
+    has_archive
+    rewrite
+    permalink_epmask
+    query_var
+    delete_with_user
+    show_in_rest
+    rest_controller_class
+    rest_base
+    can_export
+    */
 
     final public function __construct()
     {
